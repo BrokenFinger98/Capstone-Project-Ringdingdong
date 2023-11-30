@@ -1,0 +1,184 @@
+/*topNav */
+
+#user{
+    display: flex;
+    justify-content: flex-end;
+    height:40px;
+    margin-top:10px;
+  }
+  
+  .topNav{
+    margin-right: 20px;
+    color:#000000;
+  }
+  
+  #menu{
+    height:80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* 세로 정렬 */
+    border-bottom:3px solid lightgrey;
+    padding: 0 30px 0px 30px;
+  }
+  
+  .horizontal-list{
+    list-style: none; /* 기본 목록 마커를 숨깁니다. */
+    padding: 0; /* 패딩을 제거합니다. */
+    display: flex; /* Flexbox 레이아웃을 사용합니다. */ 
+    margin-top:0px;
+  }
+  
+  .horizontal-list li {
+    display: inline; /* 항목을 가로로 배치합니다. */
+    margin-right: 20px; /* 각 항목 간의 간격을 설정합니다. */
+  }
+  
+  
+  .horizontal-list li a{
+    font-size: 18px;
+    color:#5D5A88;
+  }
+  
+
+
+
+
+/* Banner */
+
+.banner{
+    position:relative;
+    overflow: hidden;
+    width:100%;
+    height:250px;
+  }
+  
+  .banner h1{
+    position: absolute;
+    top:33%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    color:white;
+    z-index: 1;
+  }
+  
+  .banner img{
+    position : absolute;
+    top:-500px;
+    left:-100px;
+  }
+  
+
+
+
+  /* contentNav */
+
+  .contentNav{
+    width:100%;
+    height:50px;
+    border-bottom : 2px solid lightgrey;
+    padding-left: 10%;
+  }
+  
+  .contentNav ul{
+    margin:0;   
+    display: flex;
+    justify-content: row;
+    list-style-type: none;
+  }
+
+  #iconHome{
+    display:grid;
+    place-items: center;
+    width:50px;
+  }
+  
+  .contentNav한칸 a{
+    width:200px;
+    height:50px;
+    display: flex;
+    align-items: center;
+    border:1px solid lightgrey;
+    padding-left:20px;
+    padding-right:20px;
+    justify-content: space-between;
+  }
+
+
+  /* footer */
+
+
+.footer{
+    background-color: lightgrey;
+  }
+  
+  .footerBox{
+    width:70%;
+    margin:0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    height: 90px;
+  }
+  
+  .footerInfo{
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    text-align: left;
+    margin-bottom:5px;
+  }
+  
+  .footerInfo div{
+    width:250px;
+  }
+  
+  
+
+  /* bottom Nav */
+  .bottomNav{
+    width:55%;
+    height:150px;
+    margin:0 auto;
+  }
+
+  .bottomNav img{
+    width:110px;
+  }
+
+  .다른페이지안내{
+    width:250px;
+  }
+
+
+
+
+
+.bars{
+  position: absolute;
+  width:150px;
+  height:80px;
+  border:1px solid grey;
+  background-color: white;
+  
+  display:flex;
+  flex-direction: column; 
+  z-index: 1;
+  padding :0;
+  align-items: left;
+}
+
+.bars li{
+  width:100%;
+  height:50%;
+  align-items: left;
+}
+
+
+.visible-element {
+    visibility: visible;
+}
+
+.hidden-element {
+    display: none;
+}

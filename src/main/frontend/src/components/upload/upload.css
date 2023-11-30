@@ -1,0 +1,51 @@
+.uploadContentBox{
+    width:80%;
+    margin: 0 auto;
+    display:flex;
+    flex-direction: row;
+    height:500px;
+    padding-top:100px;
+}
+
+.uploadBox{
+    width:50%;
+    margin-left:50px;
+}
+
+.fileBox{
+    padding-top:60px;
+    border:1px dotted grey;
+    height:250px;
+}
+.imgUpload{
+    margin-top:30px;
+}
+#업로드설명{
+    font-size:16pt;
+}
+.업로드설명{
+    height:150px;
+}
+.업로드부가설명{
+    font-size:10pt;
+}
+
+.회색{
+    color:grey;
+}
+
+#파일선택버튼{
+    background-color: white;
+    width:90px;
+    height:35px;
+    border:1px solid lightblue;
+    border-radius: 4px;
+    color:grey;
+}
+
+.btnUpload{
+    width:110px;
+    height:50px;
+    border-radius: 3px;
+    font-size:13pt;
+}
