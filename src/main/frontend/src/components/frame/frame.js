@@ -1,61 +1,28 @@
-//상단바 (Frame) 와 Footer 함수가 정의되어 있음
-
 import './frame.css';
 import {Logo, LogoAdd} from '../../logo.js';
-import { useState } from 'react';
 
 import { Link } from 'react-router-dom';
-
-function Bars({i}){ //이걸 그냥 nav에 붙는 bars로 사용하면 TopNav에도 적용할 수 있음.
-    const [isActive, setIsActive] = useState(false);
-    const handleClick = () => {
-      setIsActive(!isActive);
-    };
-
-    const menu=[{
-      name: "서비스 소개",
-      menu1 : "인사말",
-      link : "/intro",
-    },{
-      name: "게시판",
-      menu1 : "공지사항",
-      menu2 : "커뮤니티",
-      link : "/notice",
-      link2 : "/board",
-    },{
-      name: "데이터 업로드",
-      menu1 : "데이터 업로드",
-      link : "/upload",
-    }
-    ]
-
-  return(
-    <div>
-      <li onClick={handleClick}>{menu[i].name} <img src="iconDown.png" width="10px" alt="img err"/></li>
-      <div className={`${isActive ? 'visible-element ' : 'hidden-element'}`}>
-          <ul className='bars'>
-            <li><Link to={menu[i].link}>{menu[i].menu1}</Link></li>
-            {menu[i].link2?<li><Link to={menu[i].link2}>{menu[i].menu2}</Link></li>:""}           
-          </ul>
-      </div>
-    </div>
-  );
-}
 
 export function Frame(){
     return(
         <div>
           <div id="user">
-              <Link to ="/Login" className = "topNav">로그인</Link>
+              {localStorage.getItem('jwtToken') ? 
+              <a href="/" className = "topNav" onClick={()=>{
+                localStorage.removeItem('jwtToken');
+                alert('로그아웃 되었습니다.');
+                }}>로그아웃</a> :
+              <Link to ="/login" className = "topNav">로그인</Link> 
+              }
               <Link to ="/newAccount" className ="topNav">회원가입</Link>
           </div>
           <div id="menu">
             <LogoAdd/>
             <nav id ="mainNav">
               <ul className = "horizontal-list">
-                <Bars i={0}/>
-                <Bars i={1}/>
-                <Bars i={2}/>
+              <Link to='/intro'><li>서비스 소개 <img src="iconDown.png" width="10px" alt="img err"/></li></Link>
+              <Link to='/board'><li>게시판 <img src="iconDown.png" width="10px" alt="img err"/></li></Link>
+              <Link to='/upload'><li>데이터 업로드 <img src="iconDown.png" width="10px" alt="img err"/></li></Link>
               </ul>
             </nav>
           </div>
@@ -66,7 +33,7 @@ export function Frame(){
 export function Banner({name}){
 
 return (
-    <div class="banner">
+    <div className="banner">
       <h1>{name}</h1>
       <img src="banner.jpg" alt="img err"/>
     </div>

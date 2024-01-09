@@ -1,5 +1,4 @@
-
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { XAxis, YAxis, CartesianGrid, Legend, ReferenceLine } from 'recharts';
 import { LineChart, Line } from 'recharts';
 import React, { useState } from 'react';
 import axios from 'axios';
@@ -31,7 +30,6 @@ async function 데이터가져와({marker},요일){
   }
 
 function RenderChart({marker}){
-
   const [isActive, setToggleState] = useState(false);
   const handleButtonClick = () => {
       setToggleState(!isActive);
@@ -39,13 +37,14 @@ function RenderChart({marker}){
 
   const [dataSet, changeData] = useState([]);
 
-  const toggleOn = async(event) =>{
-  try{
-       const 가져온데이터 = await 데이터가져와({marker},event.target.textContent); //데이터 잘 넘어오면 넘기는 data는 이 데이터.
-        changeData(가져온데이터);
-  }catch(err){
-    console.log(err);
-  }
+  const toggleOn = async (event) =>{
+    try{
+      const 가져온데이터 = await 데이터가져와({marker},event.target.textContent); //데이터 잘 넘어오면 넘기는 data는 이 데이터.
+      changeData(가져온데이터);
+    }catch(err){
+      console.log(err);
+    }
+    
     const btn = document.getElementById('토글버튼').querySelectorAll('button')
       btn.forEach((child)=>{
         child.classList.add('투명화');
@@ -76,50 +75,65 @@ function RenderChart({marker}){
         <button onClick={toggleOn}>일</button>
       </div><br/>
       <div className={보일까안보일까}>
-        <RenderStringChart data={dataSet}/>
+        <RenderBarChart data={dataSet}/>
       </div>
       <div className={안보일까보일까}>
-        <RenderBarChart data={dataSet}/>
+        <RenderStringChart data={dataSet}/>
       </div>
     </div>
   );
 }
 
 function RenderBarChart({data}){
-  const tickFormatter = (data) => {
-    if (data === 0){
-      return '원활';
-    }
-    else if(data === 1){
-      return '서행';
-    }
-    else if(data === 2){
-      return '혼잡';
-    }
-  };
     return(
-      <BarChart width={450} height={350} data={data}>
-        <Bar dataKey="congestion" fill="#8884d8" />
+      <LineChart width={450} height={350} data={data}>
+      <Line type="monotone" dataKey="congestion" stroke="blue" strokeWidth={2.5}/>
         <CartesianGrid stroke="#ccc" horizontalPoints={[1, 2]} /> 
-        <XAxis dataKey="hour"/>
-        <YAxis interval={1} tickFormatter={tickFormatter} />
-        <Legend/>
-      </BarChart>
+        <XAxis dataKey="hour" interval={2}/>
+        <YAxis interval={1} domain={[0,100]}
+        ticks={[0, 50, 100]}
+        tickFormatter={(value) => {
+          switch (value) {
+            case 0:
+              return '원활';
+            case 50:
+              return '서행';
+            case 100:
+              return '혼잡';
+            default:
+              return value;
+          }
+        }}
+        label={{ value: '서행'}}
+        />
+      <ReferenceLine y={50} stroke="lightgrey" />
+        <Legend align='center' 
+         payload={[
+          { value: '혼잡도', type: 'line', color: '#8884d8' },]}/>
+
+    </LineChart>
     );   
 }
 
 function RenderStringChart({data}){
 return (
     <LineChart width={450} height={350} data={data}>
-      <Line type="monotone" dataKey="numberOfCar" stroke="#8884d8" />
-      <Line type="monotone" dataKey="numberOfTruck" stroke="#111111" />
-      <Line type="monotone" dataKey="numberOfMotorcycle" stroke="#bbbbbb" />
-      <Line type="monotone" dataKey="numberOfBus" stroke="#cccccc" />
-      <Line type="monotone" dataKey="congestion" stroke="#242424" />
+      <Line type="monotone" dataKey="numberOfCar" stroke="#333333" strokeWidth={1.5}/>
+      <Line type="monotone" dataKey="numberOfTruck" stroke="#3333FF" strokeWidth={1.5}/>
+      <Line type="monotone" dataKey="numberOfMotorcycle" stroke="#D62124" strokeWidth={1.5}/>
+      <Line type="monotone" dataKey="numberOfBus" stroke="#55aa33" strokeWidth={1.5}/>
       <CartesianGrid stroke="#ccc" />
-      <XAxis dataKey="hour"/>
+      <XAxis dataKey="hour" interval={2}/>
       <YAxis />
-      <Legend/>
+      <Legend align='center' iconType="circle"
+      payload={[
+        { value: '차량', type: 'line', color: '#333333' },
+        { value: '트럭', type: 'line', color: '#3333FF' },
+        { value: '이륜차', type: 'line', color: '#D62124' },
+        { value: '버스', type: 'line', color: '#55aa33' },
+      ]}
+      />
+
     </LineChart>
   );
 }

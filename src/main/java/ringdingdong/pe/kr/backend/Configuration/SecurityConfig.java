@@ -35,7 +35,7 @@ public class SecurityConfig {
                 .httpBasic(h->h.disable())
                 .addFilter(corsConfig.corsFilter());
         http.authorizeHttpRequests(authroize -> authroize.
-                        requestMatchers("/institution/**").hasRole("INSTITUTION").
+                        requestMatchers("/upload/**").hasRole("INSTITUTION").
                         requestMatchers("/board/**").hasAnyRole("USER", "INSTITUTION").
                         requestMatchers("/comment/**").hasAnyRole("USER", "INSTITUTION").
                         requestMatchers("/member/**").hasAnyRole("USER", "INSTITUTION").

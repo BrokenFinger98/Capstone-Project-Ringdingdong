@@ -64,7 +64,6 @@ function NaverMaps() {
       };
 
       window.naver.maps.Event.addListener(marker,'click',openInfoWindow);
-      //alert(`마커 클릭: ${marker.position},${marker.title}`);
   });
     };
     document.head.appendChild(script);
@@ -104,7 +103,6 @@ export function Maps(){
     </div>
   );
 }
-
 
 function BottomNav(){
   return (

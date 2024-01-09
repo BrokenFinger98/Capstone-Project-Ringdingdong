@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 
+
 function SmallMaps(){
   useEffect(() => {
     const script = document.createElement('script');
@@ -15,10 +16,11 @@ function SmallMaps(){
         center: new window.naver.maps.LatLng(37.563573, 127.173146),
         zoom: 10,
         minZoom: 12, // 읍면동 레벨
-        //임의의 점 클릭시 마커
-    });  
+        });  
 
-    const markers = [
+    const markers = [];
+
+    const markersCoord = [
       {
         position: new window.naver.maps.LatLng(37.5509654, 127.1470982),
         title: 1,
@@ -32,35 +34,56 @@ function SmallMaps(){
         title: 3,
       }];
 
-      markers.forEach((markerInfo) => {
-        const marker =
+      const setInput = (index) => {
+        const senderInput = document.getElementById('hiddenSender');
+        senderInput.value = index;
+      }
+
+      markersCoord.forEach((markerInfo) => {
+        const setMarker =
         new window.naver.maps.Marker({
           position: markerInfo.position,
           map: map,
+          offset : {title : markerInfo.title},
           title: markerInfo.title,
-        }); 
+        });
 
-        const makeMarker = (coord) => {
-          //클릭한 위치에 새 마커 생성하는 함수
-          const title = markers.length;
-          const marker = 
-          new window.naver.maps.Marker({
-            position: coord,
-            map: map,
-          });
-          //console.log('title',title);
-          markers[title] = marker;
-        };
+        markers.push(setMarker);
+      });
 
-      const sender = () => {
-        const senderInput = document.getElementById('hiddenSender');
-        senderInput.value = marker.title;
-      }
-      window.naver.maps.Event.addListener(marker,'click',sender);
+      const makeMarker = (coord) => {
+        const lastMarker = markers[markers.length-1];
+        if (lastMarker.push === true){
+          markers.pop();
+          lastMarker.setMap(null);
+        }
+
+        const newMarker = 
+        new window.naver.maps.Marker({
+          position: coord,
+          map: map,
+        });
+        newMarker.push = true;
+        newMarker.title = markers.length+1;
+        markers.push(newMarker);        
+        window.naver.maps.Event.addListener(newMarker,'click',setInput(newMarker.title));
+      };
+
+      //마커 보내고 받기. DB에 저장되어있다고 가정.
+      
+      
+      window.naver.maps.Event.addListener(markers[0],'click',(e)=>{
+        setInput(markers[0].title);
+      });
+      window.naver.maps.Event.addListener(markers[1],'click',(e)=>{
+        setInput(markers[1].title);
+      });
+      window.naver.maps.Event.addListener(markers[2],'click',(e)=>{
+        setInput(markers[2].title);
+      });
       window.naver.maps.Event.addListener(map,'click',(e)=>{
         makeMarker(e.coord);
       });
-    });
   };
     document.head.appendChild(script);
   }, []);
@@ -72,7 +95,6 @@ function SmallMaps(){
 
 
 export default function Upload(){
-
   const [selectedFiles, setSelectedFiles] = useState([]);
     const handleFileChange = (event) => {
       // 여러 파일이 선택될 때 호출되는 함수
@@ -85,22 +107,28 @@ export default function Upload(){
     event.preventDefault();
 
     const dateContent = event.target.dateTime.value;
-    const marker = event.target.marker.value;
-    
-    console.log(dateContent+':00');
-    
+    const marker = event.target.newMarker.value;
+
+
     if (selectedFiles.length > 0) {
       const formData = new FormData();
-      formData.append('date',dateContent);//key-value YYYY/MM/DD
+      formData.append('date',dateContent);
 
       for (let i = 0; i < selectedFiles.length; i++) {
         formData.append('image', selectedFiles[i]);
       }
+
       const url = '/upload/' + marker;
 
-      axios.post(url,formData)
+      const axiosConfig = {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+        },
+      };
+      
+      axios.post(url,formData,axiosConfig)
         .then(res => {
-            console.log(res.json());
+            alert('업로드 성공');
         })
         .catch(err => {
             console.log(err);
@@ -132,7 +160,7 @@ export default function Upload(){
               </div>
               
               <div className="uploadBox">
-                <input type="hidden" name="marker" id="hiddenSender"/>
+                <input type="hidden" name="newMarker" id="hiddenSender"/>
                 <SmallMaps/>
               </div>
               

@@ -1,4 +1,4 @@
-//logo과 clean logo Upload.
+
 export function Logo(){
     return(
         <a href="./">

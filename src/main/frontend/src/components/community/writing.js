@@ -1,25 +1,42 @@
-import './community.css';
+import './board.css';
 import {Frame, Banner, ContentNav, Footer} from '../frame/frame.js';
 import axios from 'axios';
-import {Link} from 'react-router-dom';
+import { Component } from 'react';
+import { Navigate } from 'react-router-dom';
 
-export default function Writing(){
-    const writeContent = () =>{
-        const dataSet ={
-            title : document.getElementById('contentSubject').value,
-            contents : document.getElementById('contentTextBox').value,
-            TOKEN : '토큰',
-        };
-    
-        axios.post('/board/save'.dataSet)
-            .then(res => {
-                console.log(res.json());
-            })
-            .catch(err => {
-                console.log(err);
-        });
+export default class Writing extends Component{
+    state = {
+        title : '',
+        contents : '',
     }
 
+    changeTitle = (event) => {
+        this.setState({title:event.target.value})
+    }
+
+    changeArea = (event) => {
+        this.setState({contents:event.target.value})
+    }
+    
+    writeContent = async () =>{
+        const dataSet ={
+            title : this.state.title,
+            contents : this.state.contents,
+        };
+    
+        const axiosConfig = {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('jwtToken')}`,
+            },
+        };    
+                    
+        const res = await axios.post('/board/save',dataSet,axiosConfig).then(()=>{
+            alert('게시글이 저장되었습니다');
+        });
+        
+    }
+
+    render(){
     return (
         <div>
             <Frame/>
@@ -34,6 +51,9 @@ export default function Writing(){
                             type="text"
                             id="contentSubject"
                             placeholder='제목을 입력하세요'
+                            onChange = {this.changeTitle}
+                            value = {this.state.title}
+                            required
                             /><br/><br/><br/>
                         </div>
 
@@ -41,8 +61,12 @@ export default function Writing(){
                             <label>내용</label><br/><br/>
                             <textarea 
                             id="contentTextBox"
-                            placeholder='내용을 입력하세요'>
-                                </textarea><br/><br/><br/>
+                            placeholder='내용을 입력하세요'
+                            onChange={this.changeArea}
+                            value = {this.state.contents}
+                            required
+                            />
+                        <br/><br/><br/>
                         </div>
 
                         <div>
@@ -57,14 +81,13 @@ export default function Writing(){
                         </div>
                 </div>
                 <div className="submit">
-                <Link to="/board">
-                    <button className ="btnSubmit" onClick={writeContent}>제출</button>
-                    <button className ="btnSubmit btnWhite">취소</button>
-                </Link>
+                    <button className ="btnSubmit" onClick={this.writeContent}>제출</button>
+                    <button className ="btnSubmit btnWhite" onClick={()=>{this.props.history.push('/board');}}>취소</button>
                 </div>
             </div>
             <Footer/>
         </div>
 
     );
+    }
 }
