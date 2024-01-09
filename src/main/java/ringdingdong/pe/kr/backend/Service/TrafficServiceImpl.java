@@ -45,7 +45,6 @@ public class TrafficServiceImpl implements TrafficService {
                 }
             }
 
-            // 데이터가 없는 경우 기본값 설정
             if (!hasDataForHour) {
                 responseTrafficDto.setHour(i);
                 responseTrafficDto.setNumberOfCar(0.0);
@@ -54,9 +53,8 @@ public class TrafficServiceImpl implements TrafficService {
                 responseTrafficDto.setNumberOfMotorcycle(0.0);
                 responseTrafficDto.setCongestion(0.0);
             }
-
             // 결과에 추가
-            result.add(responseTrafficDto);
+            result.add(i, responseTrafficDto);
         }
 
         return result;

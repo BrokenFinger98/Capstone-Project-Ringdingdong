@@ -2,15 +2,15 @@ import './style/App.css';
 
 import Introduce from './components/introduce/introduce.js';
 import Login from './components/login/login.js';
-import NewAccount from './components/newAccount/newAccount.js';
-import NewAccoutGeneral from './components/newAccountGeneral/newAccountGeneral.js';
-import NewAccoutGov from './components/newAccountGeneral/newAccountGov.js';
-import CommunityMain from './components/community/communityMain.js';
+import NewAccount from './components/newAccountInfo/newAccountInfo.js';
+import NewAccout from './components/newAccount/newAccount.js';
+import Board from './components/community/board.js';
+import Post from './components/community/post.js';
 import Upload from './components/upload/upload.js';
 import Writing from './components/community/writing.js';
 import React from 'react';
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import {Maps} from './maps.js';
 
 const 로그인 = {
@@ -37,11 +37,7 @@ const 비밀번호찾기 = {
   req : '/join/findPassword'
 };
 
-//<Community/> 그거
-//<CommunityMain/> 공지사항 */
-
 function App() {
-
   return (
     <div className="App">
       <div id ="container">
@@ -55,14 +51,17 @@ function App() {
                 <Route path="/findPW" element={<Login menu = {비밀번호찾기}/>}/>
                 
                 <Route path="/newAccount" element={<NewAccount/>}/>
-
-                <Route path="/notice" element={<CommunityMain subject={"공지사항"}/>}/>
-                <Route path="/board" element={<CommunityMain subject={"커뮤니티"}/>}/>
+                <Route path="/board" element={<Board/>}/>
                 <Route path="/writing" element={<Writing/>}/>
-                <Route path="/newAccountGeneral" element={<NewAccoutGeneral/>}/>
-                <Route path="/newAccountGov" element={<NewAccoutGov/>}/>
+                <Route path="/post" element={<Post/>}/>
+                
+                <Route path="/newAccountGeneral" element={<NewAccout code={'member'}/>}/>
+                <Route path="/newAccountGov" element={<NewAccout code ={'institution'}/>}/>
                 <Route path="/upload" element={<Upload/>}/>
-          </Routes>
+
+                <Route path="/unwanted-path"  element={<Navigate to="/"/>}/>
+                <Route path="*" element={<Navigate to="/"/>}/>
+            </Routes>
         </Router>
       </div>
     </div>

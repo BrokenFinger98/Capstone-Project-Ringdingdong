@@ -108,7 +108,6 @@ public class UploadServiceImpl implements UploadService {
         bus *= 900;
         truck *= 900;
         motorcycle *= 900;
-        congestion *= 900;
 
         if(findTraffic.isPresent()){
             car += findTraffic.get().getNumberOfCar();

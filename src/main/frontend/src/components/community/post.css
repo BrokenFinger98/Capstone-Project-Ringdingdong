@@ -1,0 +1,65 @@
+/* 게시글 view : post */
+
+.post{
+    background-color: white;
+    text-align: left;
+    height:auto;
+    padding: 30px 30px 30px 30px;
+}
+
+.postTitleBox{
+  display: grid;
+  grid-template-columns: 6fr 0.8fr 0.8fr;
+  height:50px;
+  align-items: center;
+  padding-bottom:25px;
+  border:none;
+  border-bottom:0.5px solid lightgrey;
+}
+
+.postTitle{
+    font-size:14pt;
+
+}
+
+.postContent{
+    height:200px;
+    padding:20px 20px 20px 20px;
+
+  border:none;
+  border-bottom:0.5px solid lightgrey;
+    
+}
+
+.postCommentBox{
+    border:none;
+    border-bottom:0.5px solid lightgrey;
+    padding:20px 20px 20px 20px;
+}
+
+.postComment{
+  display: grid;
+  grid-template-columns: 1fr 6fr 0.5fr 0.5fr;
+  height:50px;
+  align-items: center;
+  padding:0 10px 0 10px;
+  border:none;
+  border-bottom:0.5px solid lightgrey;
+}
+.postComment button{
+    background-color: rgba(211, 211, 211, 0.711);
+    color:black;
+    height:20px;
+    margin-left:3px;
+}
+
+
+
+.btnWriting{
+    width:100px;
+    height:30px;
+    font-size:15px;
+    border-radius: 2px;
+    margin-left:80%;
+}
+
