@@ -21,5 +21,3 @@ public interface TrafficRepository extends JpaRepository<Traffic, Long> {
     List<ResponseTypeAndCountAndCongestionDto> findTraffic(@Param("week") Week week, @Param("marker") Long marker);
     Optional<Traffic> findByWeekAndTimeAndMarker(Week week, Long time, Long marker);
 }
-
-

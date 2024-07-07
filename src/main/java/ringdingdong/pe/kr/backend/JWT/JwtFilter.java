@@ -43,14 +43,14 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        // token에서 name꺼내기
+        // token에서 loginId 꺼내기
         String loginId = JwtUtil.getLoginId(token, secretKey);
 
         Member member = memberRepository.findByLoginId(loginId).get();
 
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginId, null, List.of(new SimpleGrantedAuthority("ROLE_" + member.getRole().toString())));
-
+        
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         filterChain.doFilter(request, response);
